@@ -8,6 +8,8 @@ public class UserInterface : MonoBehaviour
 
     static string scoreText = "";
 
+    static int score = 0;
+
 	void Update ()
 	{
 	    if (scoreText != ""){scoreObject.text = scoreText;}
@@ -15,7 +17,9 @@ public class UserInterface : MonoBehaviour
 
     public static void SetText(int newText)
     {
-        string tempText = "" + newText;
+        score += newText;
+
+        string tempText = "" + score;
         
         string text = "";
 

@@ -1,10 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy1 : MonoBehaviour,IEnemy 
+public class EnemyBase : MonoBehaviour,IEnemy 
 {
     [SerializeField]
     public EnemyInfo enemyInfo = new EnemyInfo();
+
+    public float knockBackHeight = 100f;
+
+    Rigidbody enemyController;
+
+    void OnEnable()
+    {
+
+        if (GetComponent<Rigidbody>())
+        {
+            enemyController = GetComponent<Rigidbody>();
+        }
+        else
+        {
+            enemyController = gameObject.AddComponent<Rigidbody>();
+        }
+
+    }
 
     void Update()
     {
@@ -17,27 +35,32 @@ public class Enemy1 : MonoBehaviour,IEnemy
         {
             if (CheckPos(Input.mousePosition) && enemyInfo.hp > 0)
             {
-                Debug.Log("Clicked enemy");
                 RemoveHp(PlayerInfo.currentDamage);
             }
         }
-
+        
+        return;
     }
 
-    void RemoveHp(int damage)
+    public void RemoveHp(int damage)
     {
+        if (enemyController.velocity.magnitude > 0)
+        {
+            return;
+        }
         enemyInfo.hp -= damage;
 
-        Debug.Log(enemyInfo.hp);
+        enemyController.AddForce(transform.up*knockBackHeight);
+
         //TO-DO: Show damage in interface
     }
 
-    void Die()
+    public void Die()
     {
+        UserInterface.SetText(enemyInfo.lootTable[0].lootWorth);
+
         //TO-DO: Add particle effect and death animation
         Destroy(gameObject);
-
-        UserInterface.SetText(enemyInfo.lootTable[0].lootWorth);
     }
 
     public bool CheckPos(Vector3 mousePos)
