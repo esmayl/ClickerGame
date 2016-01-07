@@ -5,6 +5,7 @@
 [Oo]bj/
 [Bb]uild
 [Ll]ibrary/
+Assets/MainScene/*.exr
 sysinfo.txt
  
 # ===================================== #
