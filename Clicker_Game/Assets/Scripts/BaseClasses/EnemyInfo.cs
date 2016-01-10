@@ -6,6 +6,7 @@ public class EnemyInfo
 {
     public string name;
     public int hp;
+    public int maxHp;
 
     [SerializeField]
     public Loot[] lootTable = new Loot[1];

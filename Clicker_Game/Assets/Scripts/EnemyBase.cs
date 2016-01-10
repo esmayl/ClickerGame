@@ -21,13 +21,14 @@ public class EnemyBase : MonoBehaviour,IEnemy
         {
             enemyController = gameObject.AddComponent<Rigidbody>();
         }
-
     }
 
     void Update()
     {
         if (enemyInfo.hp <= 0)
         {
+            //Update the hp in the userinterface
+            UserInterface.ChangeHp(enemyInfo.hp, enemyInfo.maxHp);
             Die();
         }
 
@@ -52,12 +53,17 @@ public class EnemyBase : MonoBehaviour,IEnemy
 
         enemyController.AddForce(transform.up*knockBackHeight);
 
-        //TO-DO: Show damage in interface
+        //Shows hp in the userinterface
+        UserInterface.ChangeHp(enemyInfo.hp, enemyInfo.maxHp);
+
     }
 
     public void Die()
     {
         UserInterface.SetText(enemyInfo.lootTable[0].lootWorth);
+
+        //Resets the hp in the userinterface
+        UserInterface.ResetHp();
 
         //TO-DO: Add particle effect and death animation
         Destroy(gameObject);
