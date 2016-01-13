@@ -5,9 +5,13 @@ using System;
 [Serializable]
 public class EnemySpawner : MonoBehaviour 
 {
+
     public GameObject enemyPlayholder;
 
     public int enemyNumber = 0;//for selecting the corect enemy for respawning
+
+    public int hp = 100;
+    public float multiplier = 1.05f;
 
     [SerializeField]
     public EnemyBase[] Enemies;
@@ -42,6 +46,12 @@ public class EnemySpawner : MonoBehaviour
         tempObj = Instantiate(Enemies[enemyNumber].gameObject, enemyPlayholder.transform.position, Quaternion.identity) as GameObject;
         tempObj.transform.parent = enemyPlayholder.transform;
 
+        hp = (int) (hp*multiplier);
+        EnemyBase e = tempObj.GetComponent<EnemyBase>();
+        e.enemyInfo.maxHp = (int)(hp * multiplier);
+        e.enemyInfo.hp = hp;
+        
+        
         if (enemyNumber < Enemies.Length-1)
         {
             enemyNumber++;
